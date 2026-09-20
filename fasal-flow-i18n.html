@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fasal Flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@500;600&family=Noto+Sans+Devanagari:wght@400;600&family=Noto+Sans+Bengali:wght@400;600&family=Noto+Sans+Tamil:wght@400;600&family=Noto+Sans+Telugu:wght@400;600&family=Noto+Sans+Gujarati:wght@400;600&family=Noto+Sans+Kannada:wght@400;600&family=Noto+Sans+Malayalam:wght@400;600&family=Noto+Sans+Gurmukhi:wght@400;600&family=Noto+Naskh+Arabic:wght@400;600&family=Noto+Sans+SC:wght@400;600&family=Noto+Sans+JP:wght@400;600&family=Noto+Sans+KR:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1d2a1f; --ink-soft:#4d5b4f; --paper:#f7f3e8; --paper-2:#efe8d6;
+  --green:#1f5132; --green-dk:#163726; --gold:#c08a2e; --rule:#d9cfb5; --red:#8f2f24;
+  --serif:"IBM Plex Serif",Georgia,serif; --sans:"IBM Plex Sans",system-ui,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.6}
+:lang(hi),:lang(mr){font-family:"Noto Sans Devanagari",var(--sans)}
+:lang(bn){font-family:"Noto Sans Bengali",var(--sans)}
+:lang(ta){font-family:"Noto Sans Tamil",var(--sans)}
+:lang(te){font-family:"Noto Sans Telugu",var(--sans)}
+:lang(gu){font-family:"Noto Sans Gujarati",var(--sans)}
+:lang(kn){font-family:"Noto Sans Kannada",var(--sans)}
+:lang(ml){font-family:"Noto Sans Malayalam",var(--sans)}
+:lang(pa){font-family:"Noto Sans Gurmukhi",var(--sans)}
+:lang(ar),:lang(ur){font-family:"Noto Naskh Arabic",var(--sans)}
+:lang(zh-CN){font-family:"Noto Sans SC",var(--sans)}
+:lang(ja){font-family:"Noto Sans JP",var(--sans)}
+:lang(ko){font-family:"Noto Sans KR",var(--sans)}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+header{background:var(--green-dk);color:#f2ead6;position:sticky;top:env(safe-area-inset-top,0px);z-index:9}
+.bar{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:12px 0}
+.brand{font-family:var(--serif);font-size:1.25rem;font-weight:600;letter-spacing:.2px}
+.brand span{color:var(--gold)}
+nav{display:flex;gap:16px;flex-wrap:wrap;font-size:.92rem}
+nav a{color:#e6dcc4;text-decoration:none;padding:2px 0;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus-visible{border-color:var(--gold)}
+.spacer{margin-inline-start:auto}
+select{font:inherit;font-size:.88rem;padding:6px 10px;border-radius:4px;border:1px solid #3d5a47;background:#12291c;color:#f2ead6}
+.btn{font:inherit;font-size:.92rem;font-weight:500;padding:9px 16px;border-radius:4px;border:1px solid var(--green);background:var(--green);color:#fdf9ee;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--green);border-color:var(--rule)}
+.btn:hover{background:var(--green-dk)}
+.btn.ghost:hover{background:var(--paper-2);color:var(--green)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.hero{padding:56px 0 40px;border-bottom:1px solid var(--rule)}
+h1{font-family:var(--serif);font-size:clamp(1.8rem,4.6vw,2.9rem);line-height:1.2;margin:0 0 14px;max-width:18ch}
+.lede{font-size:1.08rem;color:var(--ink-soft);max-width:60ch;margin:0 0 24px}
+.cta-row{display:flex;gap:12px;flex-wrap:wrap}
+section{padding:40px 0}
+h2{font-family:var(--serif);font-size:1.45rem;margin:0 0 18px}
+.cards{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:#fffdf6;border:1px solid var(--rule);border-start-start-radius:4px;border-end-end-radius:4px;padding:18px;border-inline-start:3px solid var(--gold)}
+.card h3{font-family:var(--serif);font-size:1.08rem;margin:0 0 6px}
+.card p{margin:0;color:var(--ink-soft);font-size:.95rem}
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);background:#fffdf6}
+table{width:100%;border-collapse:collapse;font-size:.95rem;min-width:420px}
+th,td{padding:11px 14px;text-align:start;border-bottom:1px solid var(--rule)}
+th{background:var(--paper-2);font-weight:600;font-size:.85rem}
+tr:last-child td{border-bottom:0}
+.up{color:var(--green);font-weight:600}.down{color:var(--red);font-weight:600}
+form{display:grid;gap:14px;max-width:440px;background:#fffdf6;border:1px solid var(--rule);padding:20px}
+label{display:block;font-size:.88rem;font-weight:500;margin-bottom:5px}
+input{font:inherit;width:100%;padding:9px 11px;border:1px solid var(--rule);border-radius:3px;background:var(--paper)}
+.err{color:var(--red);font-size:.82rem;min-height:1.1em;display:block}
+.toast{position:fixed;inset-inline-end:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));background:var(--green-dk);color:#f2ead6;padding:12px 18px;border-radius:4px;box-shadow:0 6px 20px rgba(0,0,0,.25);transform:translateY(120%);transition:transform .25s;z-index:20}
+.toast.show{transform:none}
+footer{background:var(--green-dk);color:#cdbfa0;padding:26px 0;font-size:.9rem}
+footer a{color:#e6dcc4}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#15190f;--paper-2:#1f2416;--ink:#f0ead8;--ink-soft:#bcb49c;--rule:#3a3f2c}
+ :root:not([data-theme="light"]) .card,:root:not([data-theme="light"]) .tablewrap,:root:not([data-theme="light"]) form{background:#1b2014}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <div class="brand">Fasal<span>Flow</span></div>
+    <nav>
+      <a href="#market" data-i18n="nav1"></a>
+      <a href="#predict" data-i18n="nav2"></a>
+      <a href="#transport" data-i18n="nav3"></a>
+      <a href="#join" data-i18n="nav4"></a>
+    </nav>
+    <div class="spacer"></div>
+    <label class="sr" for="lang" style="font-size:.85rem" data-i18n="lang"></label>
+    <select id="lang" aria-label="Language"></select>
+  </div>
+</header>
+
+<main>
+  <div class="hero wrap">
+    <h1 data-i18n="h1"></h1>
+    <p class="lede" data-i18n="hsub"></p>
+    <div class="cta-row">
+      <button class="btn" data-i18n="cta1"></button>
+      <button class="btn ghost" data-i18n="cta2"></button>
+    </div>
+  </div>
+
+  <section class="wrap" id="predict">
+    <h2 data-i18n="f0"></h2>
+    <div class="cards">
+      <div class="card"><h3 data-i18n="f1t"></h3><p data-i18n="f1d"></p></div>
+      <div class="card"><h3 data-i18n="f2t"></h3><p data-i18n="f2d"></p></div>
+      <div class="card"><h3 data-i18n="f3t"></h3><p data-i18n="f3d"></p></div>
+    </div>
+  </section>
+
+  <section class="wrap" id="market">
+    <h2 data-i18n="tblT"></h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr>
+          <th data-i18n="cCrop"></th><th data-i18n="cMandi"></th>
+          <th data-i18n="cPrice"></th><th data-i18n="cChg"></th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="wrap" id="join">
+    <h2 data-i18n="frmT"></h2>
+    <form id="joinForm" novalidate>
+      <div>
+        <label for="nm" data-i18n="frmN"></label>
+        <input id="nm" data-i18n-ph="frmNph">
+        <span class="err" id="nmErr"></span>
+      </div>
+      <div>
+        <label for="ph" data-i18n="frmP"></label>
+        <input id="ph" inputmode="numeric" data-i18n-ph="frmPph">
+        <span class="err" id="phErr"></span>
+      </div>
+      <button class="btn" type="submit" data-i18n="frmS"></button>
+    </form>
+  </section>
+</main>
+
+<footer id="transport"><div class="wrap">
+  <p data-i18n="ftrT" style="margin:0 0 6px"></p>
+  <p data-i18n="ftrR" style="margin:0"></p>
+</div></footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ---------- 1. Languages (add one line here to support more) ---------- */
+const LANGS=[["en","English","ltr"],["hi","हिन्दी","ltr"],["mr","मराठी","ltr"],["bn","বাংলা","ltr"],
+["ta","தமிழ்","ltr"],["te","తెలుగు","ltr"],["gu","ગુજરાતી","ltr"],["kn","ಕನ್ನಡ","ltr"],
+["ml","മലയാളം","ltr"],["pa","ਪੰਜਾਬੀ","ltr"],["ur","اردو","rtl"],["ar","العربية","rtl"],
+["es","Español","ltr"],["fr","Français","ltr"],["de","Deutsch","ltr"],["it","Italiano","ltr"],
+["pt","Português","ltr"],["nl","Nederlands","ltr"],["ru","Русский","ltr"],
+["zh-CN","简体中文","ltr"],["ja","日本語","ltr"],["ko","한국어","ltr"]];
+
+/* ---------- 2. Translation strings (one object per language) ---------- */
+const T={
+en:{lang:"Language",nav1:"Mandi prices",nav2:"Price forecast",nav3:"Transport",nav4:"Join",
+h1:"Know the mandi rate before you load the truck.",hsub:"Live APMC prices, seven-day forecasts and verified buyers across Maharashtra — in the language you think in.",cta1:"See today's rates",cta2:"How it works",
+f0:"What Fasal Flow does",f1t:"Live mandi rates",f1d:"Prices from APMC yards, refreshed through the trading day.",f2t:"Seven-day forecast",f2d:"An estimate of where your crop's rate is heading, with the confidence range shown.",f3t:"Direct buyers",f3d:"Sell to verified traders and FPOs without a commission agent in between.",
+tblT:"Today's rates",cCrop:"Crop",cMandi:"Mandi",cPrice:"Price (₹/quintal)",cChg:"Change",
+c1:"Soybean",c2:"Cotton",c3:"Tur (pigeon pea)",m1:"Latur",m2:"Akola",m3:"Osmanabad",
+frmT:"Get rates on your phone",frmN:"Your name",frmNph:"e.g. Sunita Patil",frmP:"Mobile number",frmPph:"10-digit number",frmS:"Send me daily rates",
+eName:"Enter your name",ePhone:"Enter a 10-digit mobile number",toast:"Done. You'll get rates every morning at 7.",
+ftrT:"Fasal Flow — mandi prices, forecasts and transport for Maharashtra's farmers.",ftrR:"© 2026 Fasal Flow. All rights reserved."},
+
+hi:{lang:"भाषा",nav1:"मंडी भाव",nav2:"भाव अनुमान",nav3:"परिवहन",nav4:"जुड़ें",
+h1:"गाड़ी भरने से पहले मंडी का भाव जान लें।",hsub:"महाराष्ट्र भर की लाइव APMC कीमतें, सात दिन का अनुमान और सत्यापित खरीदार — आपकी अपनी भाषा में।",cta1:"आज के भाव देखें",cta2:"यह कैसे काम करता है",
+f0:"फसल फ्लो क्या करता है",f1t:"लाइव मंडी भाव",f1d:"APMC बाज़ारों से कीमतें, दिन भर अपडेट होती रहती हैं।",f2t:"सात दिन का अनुमान",f2d:"आपकी फसल का भाव किस ओर जा रहा है, इसका अनुमान विश्वास सीमा के साथ।",f3t:"सीधे खरीदार",f3d:"बिना दलाल के सत्यापित व्यापारियों और FPO को बेचें।",
+tblT:"आज के भाव",cCrop:"फसल",cMandi:"मंडी",cPrice:"भाव (₹/क्विंटल)",cChg:"बदलाव",
+c1:"सोयाबीन",c2:"कपास",c3:"तुअर (अरहर)",m1:"लातूर",m2:"अकोला",m3:"उस्मानाबाद",
+frmT:"अपने फ़ोन पर भाव पाएँ",frmN:"आपका नाम",frmNph:"जैसे सुनीता पाटील",frmP:"मोबाइल नंबर",frmPph:"10 अंकों का नंबर",frmS:"रोज़ भाव भेजें",
+eName:"अपना नाम दर्ज करें",ePhone:"10 अंकों का मोबाइल नंबर दर्ज करें",toast:"हो गया। हर सुबह 7 बजे भाव मिलेंगे।",
+ftrT:"फसल फ्लो — महाराष्ट्र के किसानों के लिए मंडी भाव, अनुमान और परिवहन।",ftrR:"© 2026 फसल फ्लो. सर्वाधिकार सुरक्षित।"},
+
+mr:{lang:"भाषा",nav1:"बाजारभाव",nav2:"भाव अंदाज",nav3:"वाहतूक",nav4:"सामील व्हा",
+h1:"गाडी भरण्यापूर्वी बाजारभाव जाणून घ्या.",hsub:"महाराष्ट्रातील थेट APMC भाव, सात दिवसांचा अंदाज आणि पडताळलेले खरेदीदार — तुमच्याच भाषेत.",cta1:"आजचे भाव पाहा",cta2:"हे कसे चालते",
+f0:"फसल फ्लो काय करते",f1t:"थेट बाजारभाव",f1d:"APMC बाजार समित्यांचे भाव, दिवसभर अद्ययावत.",f2t:"सात दिवसांचा अंदाज",f2d:"तुमच्या पिकाचा भाव कुठे जाणार याचा अंदाज, विश्वास मर्यादेसह.",f3t:"थेट खरेदीदार",f3d:"दलालाशिवाय पडताळलेले व्यापारी आणि FPO यांना विका.",
+tblT:"आजचे भाव",cCrop:"पीक",cMandi:"बाजार समिती",cPrice:"भाव (₹/क्विंटल)",cChg:"बदल",
+c1:"सोयाबीन",c2:"कापूस",c3:"तूर",m1:"लातूर",m2:"अकोला",m3:"उस्मानाबाद",
+frmT:"तुमच्या मोबाइलवर भाव मिळवा",frmN:"तुमचे नाव",frmNph:"उदा. सुनीता पाटील",frmP:"मोबाइल क्रमांक",frmPph:"10 अंकी क्रमांक",frmS:"रोजचे भाव पाठवा",
+eName:"तुमचे नाव लिहा",ePhone:"10 अंकी मोबाइल क्रमांक लिहा",toast:"झाले. दररोज सकाळी 7 वाजता भाव मिळतील.",
+ftrT:"फसल फ्लो — महाराष्ट्रातील शेतकऱ्यांसाठी बाजारभाव, अंदाज आणि वाहतूक.",ftrR:"© 2026 फसल फ्लो. सर्व हक्क राखीव."},
+
+bn:{lang:"ভাষা",nav1:"মান্ডির দাম",nav2:"দামের পূর্বাভাস",nav3:"পরিবহন",nav4:"যোগ দিন",
+h1:"ট্রাক বোঝাই করার আগে মান্ডির দাম জেনে নিন।",hsub:"মহারাষ্ট্র জুড়ে সরাসরি APMC দাম, সাত দিনের পূর্বাভাস ও যাচাই করা ক্রেতা — আপনার নিজের ভাষায়।",cta1:"আজকের দাম দেখুন",cta2:"এটি যেভাবে কাজ করে",
+f0:"ফসল ফ্লো যা করে",f1t:"সরাসরি মান্ডির দাম",f1d:"APMC বাজারের দাম, সারা দিন হালনাগাদ হয়।",f2t:"সাত দিনের পূর্বাভাস",f2d:"আপনার ফসলের দাম কোন দিকে যাচ্ছে তার অনুমান, আস্থার সীমাসহ।",f3t:"সরাসরি ক্রেতা",f3d:"দালাল ছাড়াই যাচাই করা ব্যবসায়ী ও FPO-কে বিক্রি করুন।",
+tblT:"আজকের দাম",cCrop:"ফসল",cMandi:"মান্ডি",cPrice:"দাম (₹/কুইন্টাল)",cChg:"পরিবর্তন",
+c1:"সয়াবিন",c2:"তুলা",c3:"তুর ডাল",m1:"লাতুর",m2:"আকোলা",m3:"ওসমানাবাদ",
+frmT:"ফোনে দাম পান",frmN:"আপনার নাম",frmNph:"যেমন সুনীতা পাটিল",frmP:"মোবাইল নম্বর",frmPph:"১০ সংখ্যার নম্বর",frmS:"প্রতিদিনের দাম পাঠান",
+eName:"আপনার নাম লিখুন",ePhone:"১০ সংখ্যার মোবাইল নম্বর লিখুন",toast:"হয়ে গেছে। প্রতিদিন সকাল ৭টায় দাম পাবেন।",
+ftrT:"ফসল ফ্লো — মহারাষ্ট্রের কৃষকদের জন্য মান্ডির দাম, পূর্বাভাস ও পরিবহন।",ftrR:"© ২০২৬ ফসল ফ্লো। সর্বস্বত্ব সংরক্ষিত।"},
+
+ta:{lang:"மொழி",nav1:"மண்டி விலை",nav2:"விலை முன்னறிவிப்பு",nav3:"போக்குவரத்து",nav4:"இணையுங்கள்",
+h1:"லாரியில் ஏற்றும் முன் மண்டி விலையை அறியுங்கள்.",hsub:"மகாராஷ்டிரா முழுவதும் நேரடி APMC விலைகள், ஏழு நாள் முன்னறிவிப்பு, சரிபார்க்கப்பட்ட வாங்குபவர்கள் — உங்கள் மொழியில்.",cta1:"இன்றைய விலைகள்",cta2:"இது எப்படி வேலை செய்கிறது",
+f0:"ஃபசல் ஃப்ளோ செய்வது",f1t:"நேரடி மண்டி விலை",f1d:"APMC சந்தைகளின் விலைகள், நாள் முழுவதும் புதுப்பிக்கப்படும்.",f2t:"ஏழு நாள் முன்னறிவிப்பு",f2d:"உங்கள் பயிரின் விலை எங்கு செல்கிறது என்ற மதிப்பீடு, நம்பகத்தன்மை வரம்புடன்.",f3t:"நேரடி வாங்குபவர்",f3d:"தரகர் இல்லாமல் சரிபார்க்கப்பட்ட வணிகர்கள், FPO-க்கு விற்கலாம்.",
+tblT:"இன்றைய விலைகள்",cCrop:"பயிர்",cMandi:"மண்டி",cPrice:"விலை (₹/குவிண்டால்)",cChg:"மாற்றம்",
+c1:"சோயாபீன்",c2:"பருத்தி",c3:"துவரை",m1:"லாத்தூர்",m2:"அகோலா",m3:"உஸ்மானாபாத்",
+frmT:"தொலைபேசியில் விலைகள்",frmN:"உங்கள் பெயர்",frmNph:"எ.கா. சுனிதா பாட்டீல்",frmP:"கைபேசி எண்",frmPph:"10 இலக்க எண்",frmS:"தினசரி விலை அனுப்பு",
+eName:"உங்கள் பெயரை உள்ளிடவும்",ePhone:"10 இலக்க கைபேசி எண்ணை உள்ளிடவும்",toast:"முடிந்தது. தினமும் காலை 7 மணிக்கு விலைகள் வரும்.",
+ftrT:"ஃபசல் ஃப்ளோ — மகாராஷ்டிர விவசாயிகளுக்கான விலை, முன்னறிவிப்பு, போக்குவரத்து.",ftrR:"© 2026 ஃபசல் ஃப்ளோ. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."},
+
+te:{lang:"భాష",nav1:"మండీ ధరలు",nav2:"ధర అంచనా",nav3:"రవాణా",nav4:"చేరండి",
+h1:"లారీ నింపే ముందు మండీ ధర తెలుసుకోండి.",hsub:"మహారాష్ట్ర అంతటా ప్రత్యక్ష APMC ధరలు, ఏడు రోజుల అంచనా, ధృవీకరించిన కొనుగోలుదారులు — మీ భాషలో.",cta1:"నేటి ధరలు చూడండి",cta2:"ఇది ఎలా పనిచేస్తుంది",
+f0:"ఫసల్ ఫ్లో ఏం చేస్తుంది",f1t:"ప్రత్యక్ష మండీ ధరలు",f1d:"APMC మార్కెట్ల ధరలు, రోజంతా నవీకరించబడతాయి.",f2t:"ఏడు రోజుల అంచనా",f2d:"మీ పంట ధర ఎటు వెళ్తుందనే అంచనా, విశ్వాస పరిధితో.",f3t:"నేరుగా కొనుగోలుదారులు",f3d:"దళారి లేకుండా ధృవీకరించిన వ్యాపారులు, FPO లకు అమ్మండి.",
+tblT:"నేటి ధరలు",cCrop:"పంట",cMandi:"మండీ",cPrice:"ధర (₹/క్వింటాల్)",cChg:"మార్పు",
+c1:"సోయాబీన్",c2:"పత్తి",c3:"కంది",m1:"లాతూర్",m2:"అకోలా",m3:"ఉస్మానాబాద్",
+frmT:"ఫోన్‌లో ధరలు పొందండి",frmN:"మీ పేరు",frmNph:"ఉదా. సునీతా పాటిల్",frmP:"మొబైల్ నంబర్",frmPph:"10 అంకెల నంబర్",frmS:"రోజువారీ ధరలు పంపండి",
+eName:"మీ పేరు నమోదు చేయండి",ePhone:"10 అంకెల మొబైల్ నంబర్ నమోదు చేయండి",toast:"అయింది. ప్రతి ఉదయం 7 గంటలకు ధరలు అందుతాయి.",
+ftrT:"ఫసల్ ఫ్లో — మహారాష్ట్ర రైతులకు మండీ ధరలు, అంచనాలు, రవాణా.",ftrR:"© 2026 ఫసల్ ఫ్లో. అన్ని హక్కులు ప్రత్యేకించబడ్డాయి."},
+
+gu:{lang:"ભાષા",nav1:"મંડી ભાવ",nav2:"ભાવ અનુમાન",nav3:"વાહનવ્યવહાર",nav4:"જોડાઓ",
+h1:"ગાડી ભરતા પહેલાં મંડીનો ભાવ જાણી લો.",hsub:"મહારાષ્ટ્રભરના જીવંત APMC ભાવ, સાત દિવસનું અનુમાન અને ચકાસાયેલા ખરીદદારો — તમારી ભાષામાં.",cta1:"આજના ભાવ જુઓ",cta2:"આ કેવી રીતે કામ કરે છે",
+f0:"ફસલ ફ્લો શું કરે છે",f1t:"જીવંત મંડી ભાવ",f1d:"APMC બજારોના ભાવ, આખો દિવસ અપડેટ થાય છે.",f2t:"સાત દિવસનું અનુમાન",f2d:"તમારા પાકનો ભાવ ક્યાં જઈ રહ્યો છે તેનું અનુમાન, વિશ્વાસ મર્યાદા સાથે.",f3t:"સીધા ખરીદદારો",f3d:"દલાલ વિના ચકાસાયેલા વેપારીઓ અને FPO ને વેચો.",
+tblT:"આજના ભાવ",cCrop:"પાક",cMandi:"મંડી",cPrice:"ભાવ (₹/ક્વિન્ટલ)",cChg:"ફેરફાર",
+c1:"સોયાબીન",c2:"કપાસ",c3:"તુવેર",m1:"લાતુર",m2:"અકોલા",m3:"ઉસ્માનાબાદ",
+frmT:"ફોન પર ભાવ મેળવો",frmN:"તમારું નામ",frmNph:"દા.ત. સુનીતા પાટીલ",frmP:"મોબાઇલ નંબર",frmPph:"10 અંકનો નંબર",frmS:"રોજના ભાવ મોકલો",
+eName:"તમારું નામ દાખલ કરો",ePhone:"10 અંકનો મોબાઇલ નંબર દાખલ કરો",toast:"થઈ ગયું. દરરોજ સવારે 7 વાગ્યે ભાવ મળશે.",
+ftrT:"ફસલ ફ્લો — મહારાષ્ટ્રના ખેડૂતો માટે ભાવ, અનુમાન અને વાહનવ્યવહાર.",ftrR:"© 2026 ફસલ ફ્લો. સર્વ હક્ક સુરક્ષિત."},
+
+kn:{lang:"ಭಾಷೆ",nav1:"ಮಂಡಿ ಬೆಲೆ",nav2:"ಬೆಲೆ ಮುನ್ಸೂಚನೆ",nav3:"ಸಾರಿಗೆ",nav4:"ಸೇರಿ",
+h1:"ಲಾರಿ ತುಂಬುವ ಮೊದಲು ಮಂಡಿ ಬೆಲೆ ತಿಳಿಯಿರಿ.",hsub:"ಮಹಾರಾಷ್ಟ್ರದಾದ್ಯಂತ ನೇರ APMC ಬೆಲೆಗಳು, ಏಳು ದಿನಗಳ ಮುನ್ಸೂಚನೆ ಮತ್ತು ಪರಿಶೀಲಿತ ಖರೀದಿದಾರರು — ನಿಮ್ಮ ಭಾಷೆಯಲ್ಲಿ.",cta1:"ಇಂದಿನ ಬೆಲೆ ನೋಡಿ",cta2:"ಇದು ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ",
+f0:"ಫಸಲ್ ಫ್ಲೋ ಏನು ಮಾಡುತ್ತದೆ",f1t:"ನೇರ ಮಂಡಿ ಬೆಲೆ",f1d:"APMC ಮಾರುಕಟ್ಟೆಗಳ ಬೆಲೆ, ದಿನವಿಡೀ ನವೀಕರಣ.",f2t:"ಏಳು ದಿನಗಳ ಮುನ್ಸೂಚನೆ",f2d:"ನಿಮ್ಮ ಬೆಳೆಯ ಬೆಲೆ ಎತ್ತ ಸಾಗುತ್ತಿದೆ ಎಂಬ ಅಂದಾಜು, ವಿಶ್ವಾಸ ವ್ಯಾಪ್ತಿಯೊಂದಿಗೆ.",f3t:"ನೇರ ಖರೀದಿದಾರರು",f3d:"ದಲ್ಲಾಳಿ ಇಲ್ಲದೆ ಪರಿಶೀಲಿತ ವ್ಯಾಪಾರಿಗಳಿಗೆ, FPO ಗಳಿಗೆ ಮಾರಿ.",
+tblT:"ಇಂದಿನ ಬೆಲೆಗಳು",cCrop:"ಬೆಳೆ",cMandi:"ಮಂಡಿ",cPrice:"ಬೆಲೆ (₹/ಕ್ವಿಂಟಾಲ್)",cChg:"ಬದಲಾವಣೆ",
+c1:"ಸೋಯಾಬೀನ್",c2:"ಹತ್ತಿ",c3:"ತೊಗರಿ",m1:"ಲಾತೂರ್",m2:"ಅಕೋಲಾ",m3:"ಉಸ್ಮಾನಾಬಾದ್",
+frmT:"ಫೋನ್‌ನಲ್ಲಿ ಬೆಲೆ ಪಡೆಯಿರಿ",frmN:"ನಿಮ್ಮ ಹೆಸರು",frmNph:"ಉದಾ. ಸುನೀತಾ ಪಾಟೀಲ್",frmP:"ಮೊಬೈಲ್ ಸಂಖ್ಯೆ",frmPph:"10 ಅಂಕಿಯ ಸಂಖ್ಯೆ",frmS:"ದಿನದ ಬೆಲೆ ಕಳುಹಿಸಿ",
+eName:"ನಿಮ್ಮ ಹೆಸರು ನಮೂದಿಸಿ",ePhone:"10 ಅಂಕಿಯ ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ",toast:"ಆಯಿತು. ಪ್ರತಿದಿನ ಬೆಳಿಗ್ಗೆ 7ಕ್ಕೆ ಬೆಲೆ ಸಿಗುತ್ತದೆ.",
+ftrT:"ಫಸಲ್ ಫ್ಲೋ — ಮಹಾರಾಷ್ಟ್ರದ ರೈತರಿಗೆ ಬೆಲೆ, ಮುನ್ಸೂಚನೆ ಮತ್ತು ಸಾರಿಗೆ.",ftrR:"© 2026 ಫಸಲ್ ಫ್ಲೋ. ಎಲ್ಲ ಹಕ್ಕುಗಳನ್ನು ಕಾಯ್ದಿರಿಸಲಾಗಿದೆ."},
+
+ml:{lang:"ഭാഷ",nav1:"മണ്ടി വില",nav2:"വില പ്രവചനം",nav3:"ഗതാഗതം",nav4:"ചേരുക",
+h1:"ലോറി നിറയ്ക്കും മുമ്പ് മണ്ടി വില അറിയുക.",hsub:"മഹാരാഷ്ട്രയിലുടനീളം തത്സമയ APMC വിലകൾ, ഏഴു ദിവസത്തെ പ്രവചനം, പരിശോധിച്ച വാങ്ങലുകാർ — നിങ്ങളുടെ ഭാഷയിൽ.",cta1:"ഇന്നത്തെ വില കാണുക",cta2:"ഇത് എങ്ങനെ പ്രവർത്തിക്കുന്നു",
+f0:"ഫസൽ ഫ്ലോ ചെയ്യുന്നത്",f1t:"തത്സമയ മണ്ടി വില",f1d:"APMC വിപണികളിലെ വില, ദിവസം മുഴുവൻ പുതുക്കുന്നു.",f2t:"ഏഴു ദിവസത്തെ പ്രവചനം",f2d:"നിങ്ങളുടെ വിളയുടെ വില എങ്ങോട്ടു നീങ്ങുന്നു എന്ന കണക്ക്, വിശ്വാസ പരിധിയോടെ.",f3t:"നേരിട്ടുള്ള വാങ്ങലുകാർ",f3d:"ഇടനിലക്കാരില്ലാതെ പരിശോധിച്ച വ്യാപാരികൾക്കും FPO കൾക്കും വിൽക്കുക.",
+tblT:"ഇന്നത്തെ വിലകൾ",cCrop:"വിള",cMandi:"മണ്ടി",cPrice:"വില (₹/ക്വിന്റൽ)",cChg:"മാറ്റം",
+c1:"സോയാബീൻ",c2:"പരുത്തി",c3:"തുവര",m1:"ലാത്തൂർ",m2:"അകോല",m3:"ഉസ്മാനാബാദ്",
+frmT:"ഫോണിൽ വില ലഭിക്കൂ",frmN:"നിങ്ങളുടെ പേര്",frmNph:"ഉദാ. സുനിത പാട്ടീൽ",frmP:"മൊബൈൽ നമ്പർ",frmPph:"10 അക്ക നമ്പർ",frmS:"ദിവസവും വില അയയ്ക്കുക",
+eName:"നിങ്ങളുടെ പേര് നൽകുക",ePhone:"10 അക്ക മൊബൈൽ നമ്പർ നൽകുക",toast:"കഴിഞ്ഞു. എല്ലാ ദിവസവും രാവിലെ 7ന് വില ലഭിക്കും.",
+ftrT:"ഫസൽ ഫ്ലോ — മഹാരാഷ്ട്ര കർഷകർക്കായി വില, പ്രവചനം, ഗതാഗതം.",ftrR:"© 2026 ഫസൽ ഫ്ലോ. എല്ലാ അവകാശങ്ങളും നിക്ഷിപ്തം."},
+
+pa:{lang:"ਭਾਸ਼ਾ",nav1:"ਮੰਡੀ ਭਾਅ",nav2:"ਭਾਅ ਅਨੁਮਾਨ",nav3:"ਆਵਾਜਾਈ",nav4:"ਜੁੜੋ",
+h1:"ਟਰੱਕ ਭਰਨ ਤੋਂ ਪਹਿਲਾਂ ਮੰਡੀ ਦਾ ਭਾਅ ਜਾਣੋ।",hsub:"ਮਹਾਰਾਸ਼ਟਰ ਭਰ ਦੇ ਸਿੱਧੇ APMC ਭਾਅ, ਸੱਤ ਦਿਨਾਂ ਦਾ ਅਨੁਮਾਨ ਅਤੇ ਪਰਖੇ ਖਰੀਦਦਾਰ — ਤੁਹਾਡੀ ਆਪਣੀ ਭਾਸ਼ਾ ਵਿੱਚ।",cta1:"ਅੱਜ ਦੇ ਭਾਅ ਵੇਖੋ",cta2:"ਇਹ ਕਿਵੇਂ ਕੰਮ ਕਰਦਾ ਹੈ",
+f0:"ਫਸਲ ਫਲੋ ਕੀ ਕਰਦਾ ਹੈ",f1t:"ਸਿੱਧੇ ਮੰਡੀ ਭਾਅ",f1d:"APMC ਮੰਡੀਆਂ ਦੇ ਭਾਅ, ਸਾਰਾ ਦਿਨ ਅੱਪਡੇਟ ਹੁੰਦੇ ਹਨ।",f2t:"ਸੱਤ ਦਿਨਾਂ ਦਾ ਅਨੁਮਾਨ",f2d:"ਤੁਹਾਡੀ ਫਸਲ ਦਾ ਭਾਅ ਕਿੱਧਰ ਜਾ ਰਿਹਾ ਹੈ, ਭਰੋਸੇ ਦੀ ਹੱਦ ਸਮੇਤ।",f3t:"ਸਿੱਧੇ ਖਰੀਦਦਾਰ",f3d:"ਆੜ੍ਹਤੀ ਤੋਂ ਬਿਨਾਂ ਪਰਖੇ ਵਪਾਰੀਆਂ ਅਤੇ FPO ਨੂੰ ਵੇਚੋ।",
+tblT:"ਅੱਜ ਦੇ ਭਾਅ",cCrop:"ਫਸਲ",cMandi:"ਮੰਡੀ",cPrice:"ਭਾਅ (₹/ਕੁਇੰਟਲ)",cChg:"ਤਬਦੀਲੀ",
+c1:"ਸੋਇਆਬੀਨ",c2:"ਕਪਾਹ",c3:"ਅਰਹਰ",m1:"ਲਾਤੂਰ",m2:"ਅਕੋਲਾ",m3:"ਉਸਮਾਨਾਬਾਦ",
+frmT:"ਫ਼ੋਨ ਉੱਤੇ ਭਾਅ ਲਵੋ",frmN:"ਤੁਹਾਡਾ ਨਾਂ",frmNph:"ਜਿਵੇਂ ਸੁਨੀਤਾ ਪਾਟੀਲ",frmP:"ਮੋਬਾਈਲ ਨੰਬਰ",frmPph:"10 ਅੰਕਾਂ ਦਾ ਨੰਬਰ",frmS:"ਰੋਜ਼ ਭਾਅ ਭੇਜੋ",
+eName:"ਆਪਣਾ ਨਾਂ ਭਰੋ",ePhone:"10 ਅੰਕਾਂ ਦਾ ਮੋਬਾਈਲ ਨੰਬਰ ਭਰੋ",toast:"ਹੋ ਗਿਆ। ਹਰ ਸਵੇਰ 7 ਵਜੇ ਭਾਅ ਮਿਲਣਗੇ।",
+ftrT:"ਫਸਲ ਫਲੋ — ਮਹਾਰਾਸ਼ਟਰ ਦੇ ਕਿਸਾਨਾਂ ਲਈ ਭਾਅ, ਅਨੁਮਾਨ ਅਤੇ ਆਵਾਜਾਈ।",ftrR:"© 2026 ਫਸਲ ਫਲੋ। ਸਾਰੇ ਹੱਕ ਰਾਖਵੇਂ।"},
+
+ur:{lang:"زبان",nav1:"منڈی کے نرخ",nav2:"قیمت کا اندازہ",nav3:"نقل و حمل",nav4:"شامل ہوں",
+h1:"ٹرک بھرنے سے پہلے منڈی کا نرخ جان لیں۔",hsub:"پورے مہاراشٹر کے براہِ راست APMC نرخ، سات دن کا اندازہ اور تصدیق شدہ خریدار — آپ ہی کی زبان میں۔",cta1:"آج کے نرخ دیکھیں",cta2:"یہ کیسے کام کرتا ہے",
+f0:"فصل فلو کیا کرتا ہے",f1t:"براہِ راست منڈی نرخ",f1d:"APMC منڈیوں کے نرخ، سارا دن تازہ ہوتے رہتے ہیں۔",f2t:"سات دن کا اندازہ",f2d:"آپ کی فصل کا نرخ کس طرف جا رہا ہے، اعتماد کی حد کے ساتھ۔",f3t:"براہِ راست خریدار",f3d:"آڑھتی کے بغیر تصدیق شدہ تاجروں اور FPO کو فروخت کریں۔",
+tblT:"آج کے نرخ",cCrop:"فصل",cMandi:"منڈی",cPrice:"نرخ (₹/کوئنٹل)",cChg:"تبدیلی",
+c1:"سویابین",c2:"کپاس",c3:"ارہر",m1:"لاتور",m2:"اکولہ",m3:"عثمان آباد",
+frmT:"فون پر نرخ حاصل کریں",frmN:"آپ کا نام",frmNph:"مثلاً سنیتا پاٹل",frmP:"موبائل نمبر",frmPph:"10 ہندسوں کا نمبر",frmS:"روزانہ نرخ بھیجیں",
+eName:"اپنا نام درج کریں",ePhone:"10 ہندسوں کا موبائل نمبر درج کریں",toast:"ہو گیا۔ ہر صبح 7 بجے نرخ ملیں گے۔",
+ftrT:"فصل فلو — مہاراشٹر کے کسانوں کے لیے نرخ، اندازے اور نقل و حمل۔",ftrR:"© 2026 فصل فلو۔ جملہ حقوق محفوظ ہیں۔"},
+
+ar:{lang:"اللغة",nav1:"أسعار السوق",nav2:"توقعات الأسعار",nav3:"النقل",nav4:"انضم",
+h1:"اعرف سعر السوق قبل تحميل الشاحنة.",hsub:"أسعار APMC مباشرة في أنحاء مهاراشترا، وتوقعات لسبعة أيام، ومشترون موثوقون — بلغتك.",cta1:"أسعار اليوم",cta2:"كيف يعمل",
+f0:"ماذا يقدم فصل فلو",f1t:"أسعار السوق المباشرة",f1d:"أسعار من أسواق APMC، تُحدَّث طوال يوم التداول.",f2t:"توقعات سبعة أيام",f2d:"تقدير لاتجاه سعر محصولك مع نطاق الثقة.",f3t:"مشترون مباشرون",f3d:"بِع لتجار ومنظمات منتجين موثوقين دون وسيط.",
+tblT:"أسعار اليوم",cCrop:"المحصول",cMandi:"السوق",cPrice:"السعر (₹/قنطار)",cChg:"التغير",
+c1:"فول الصويا",c2:"القطن",c3:"البازلاء الحمامية",m1:"لاتور",m2:"أكولا",m3:"عثمان آباد",
+frmT:"احصل على الأسعار على هاتفك",frmN:"اسمك",frmNph:"مثال: سونيتا باتيل",frmP:"رقم الجوال",frmPph:"رقم من 10 أرقام",frmS:"أرسل لي الأسعار يوميًا",
+eName:"أدخل اسمك",ePhone:"أدخل رقم جوال من 10 أرقام",toast:"تم. ستصلك الأسعار كل صباح في السابعة.",
+ftrT:"فصل فلو — أسعار وتوقعات ونقل لمزارعي مهاراشترا.",ftrR:"© 2026 فصل فلو. جميع الحقوق محفوظة."},
+
+es:{lang:"Idioma",nav1:"Precios del mercado",nav2:"Previsión de precios",nav3:"Transporte",nav4:"Únete",
+h1:"Conoce el precio del mercado antes de cargar el camión.",hsub:"Precios APMC en vivo de toda Maharashtra, previsiones a siete días y compradores verificados, en tu idioma.",cta1:"Ver precios de hoy",cta2:"Cómo funciona",
+f0:"Qué hace Fasal Flow",f1t:"Precios en vivo",f1d:"Precios de los mercados APMC, actualizados durante toda la jornada.",f2t:"Previsión a siete días",f2d:"Una estimación de hacia dónde va el precio de tu cultivo, con su margen de confianza.",f3t:"Compradores directos",f3d:"Vende a comerciantes y cooperativas verificados, sin intermediarios.",
+tblT:"Precios de hoy",cCrop:"Cultivo",cMandi:"Mercado",cPrice:"Precio (₹/quintal)",cChg:"Variación",
+c1:"Soja",c2:"Algodón",c3:"Guandú",m1:"Latur",m2:"Akola",m3:"Osmanabad",
+frmT:"Recibe los precios en tu móvil",frmN:"Tu nombre",frmNph:"p. ej. Sunita Patil",frmP:"Número de móvil",frmPph:"Número de 10 dígitos",frmS:"Enviarme precios diarios",
+eName:"Escribe tu nombre",ePhone:"Escribe un número de móvil de 10 dígitos",toast:"Listo. Recibirás los precios cada mañana a las 7.",
+ftrT:"Fasal Flow: precios, previsiones y transporte para los agricultores de Maharashtra.",ftrR:"© 2026 Fasal Flow. Todos los derechos reservados."},
+
+fr:{lang:"Langue",nav1:"Prix du marché",nav2:"Prévision des prix",nav3:"Transport",nav4:"Rejoindre",
+h1:"Connaissez le cours avant de charger le camion.",hsub:"Prix APMC en direct dans tout le Maharashtra, prévisions à sept jours et acheteurs vérifiés, dans votre langue.",cta1:"Voir les cours du jour",cta2:"Comment ça marche",
+f0:"Ce que fait Fasal Flow",f1t:"Cours en direct",f1d:"Les prix des marchés APMC, actualisés tout au long de la journée.",f2t:"Prévision à sept jours",f2d:"Une estimation de l'évolution du cours de votre culture, avec sa marge de confiance.",f3t:"Acheteurs directs",f3d:"Vendez à des négociants et coopératives vérifiés, sans intermédiaire.",
+tblT:"Cours du jour",cCrop:"Culture",cMandi:"Marché",cPrice:"Prix (₹/quintal)",cChg:"Variation",
+c1:"Soja",c2:"Coton",c3:"Pois d'Angole",m1:"Latur",m2:"Akola",m3:"Osmanabad",
+frmT:"Recevez les cours sur votre téléphone",frmN:"Votre nom",frmNph:"ex. Sunita Patil",frmP:"Numéro de mobile",frmPph:"Numéro à 10 chiffres",frmS:"M'envoyer les cours chaque jour",
+eName:"Saisissez votre nom",ePhone:"Saisissez un numéro de mobile à 10 chiffres",toast:"C'est fait. Vous recevrez les cours chaque matin à 7 h.",
+ftrT:"Fasal Flow — cours, prévisions et transport pour les agriculteurs du Maharashtra.",ftrR:"© 2026 Fasal Flow. Tous droits réservés."},
+
+de:{lang:"Sprache",nav1:"Marktpreise",nav2:"Preisprognose",nav3:"Transport",nav4:"Mitmachen",
+h1:"Kennen Sie den Marktpreis, bevor Sie laden.",hsub:"Aktuelle APMC-Preise aus ganz Maharashtra, Prognosen für sieben Tage und geprüfte Käufer – in Ihrer Sprache.",cta1:"Heutige Preise ansehen",cta2:"So funktioniert es",
+f0:"Was Fasal Flow leistet",f1t:"Aktuelle Marktpreise",f1d:"Preise von APMC-Märkten, den ganzen Handelstag über aktualisiert.",f2t:"Prognose für sieben Tage",f2d:"Eine Schätzung, wohin sich der Preis Ihrer Ernte bewegt, mit Vertrauensbereich.",f3t:"Direkte Käufer",f3d:"Verkaufen Sie ohne Zwischenhändler an geprüfte Händler und Erzeugergemeinschaften.",
+tblT:"Heutige Preise",cCrop:"Kultur",cMandi:"Markt",cPrice:"Preis (₹/Quintal)",cChg:"Veränderung",
+c1:"Sojabohne",c2:"Baumwolle",c3:"Straucherbse",m1:"Latur",m2:"Akola",m3:"Osmanabad",
+frmT:"Preise aufs Handy bekommen",frmN:"Ihr Name",frmNph:"z. B. Sunita Patil",frmP:"Mobilnummer",frmPph:"10-stellige Nummer",frmS:"Täglich Preise senden",
+eName:"Bitte Namen eingeben",ePhone:"Bitte 10-stellige Mobilnummer eingeben",toast:"Fertig. Sie erhalten die Preise täglich um 7 Uhr.",
+ftrT:"Fasal Flow – Preise, Prognosen und Transport für Maharashtras Landwirte.",ftrR:"© 2026 Fasal Flow. Alle Rechte vorbehalten."},
+
+it:{lang:"Lingua",nav1:"Prezzi di mercato",nav2:"Previsione prezzi",nav3:"Trasporto",nav4:"Iscriviti",
+h1:"Conosci il prezzo prima di caricare il camion.",hsub:"Prezzi APMC in tempo reale da tutto il Maharashtra, previsioni a sette giorni e acquirenti verificati, nella tua lingua.",cta1:"Vedi i prezzi di oggi",cta2:"Come funziona",
+f0:"Cosa fa Fasal Flow",f1t:"Prezzi in tempo reale",f1d:"Prezzi dai mercati APMC, aggiornati per tutta la giornata.",f2t:"Previsione a sette giorni",f2d:"Una stima di dove sta andando il prezzo del tuo raccolto, con il margine di confidenza.",f3t:"Acquirenti diretti",f3d:"Vendi a commercianti e cooperative verificati, senza intermediari.",
+tblT:"Prezzi di oggi",cCrop:"Coltura",cMandi:"Mercato",cPrice:"Prezzo (₹/quintale)",cChg:"Variazione",
+c1:"Soia",c2:"Cotone",c3:"Cajano",m1:"Latur",m2:"Akola",m3:"Osmanabad",
+frmT:"Ricevi i prezzi sul telefono",frmN:"Il tuo nome",frmNph:"es. Sunita Patil",frmP:"Numero di cellulare",frmPph:"Numero di 10 cifre",frmS:"Inviami i prezzi ogni giorno",
+eName:"Inserisci il tuo nome",ePhone:"Inserisci un numero di cellulare di 10 cifre",toast:"Fatto. Riceverai i prezzi ogni mattina alle 7.",
+ftrT:"Fasal Flow — prezzi, previsioni e trasporto per gli agricoltori del Maharashtra.",ftrR:"© 2026 Fasal Flow. Tutti i diritti riservati."},
+
+pt:{lang:"Idioma",nav1:"Preços do mercado",nav2:"Previsão de preços",nav3:"Transporte",nav4:"Participar",
+h1:"Saiba o preço do mercado antes de carregar o caminhão.",hsub:"Preços APMC ao vivo de todo o Maharashtra, previsões de sete dias e compradores verificados, no seu idioma.",cta1:"Ver preços de hoje",cta2:"Como funciona",
+f0:"O que o Fasal Flow faz",f1t:"Preços ao vivo",f1d:"Preços dos mercados APMC, atualizados ao longo do dia.",f2t:"Previsão de sete dias",f2d:"Uma estimativa de para onde vai o preço da sua safra, com a margem de confiança.",f3t:"Compradores diretos",f3d:"Venda a comerciantes e cooperativas verificados, sem intermediários.",
+tblT:"Preços de hoje",cCrop:"Cultura",cMandi:"Mercado",cPrice:"Preço (₹/quintal)",cChg:"Variação",
+c1:"Soja",c2:"Algodão",c3:"Feijão-guandu",m1:"Latur",m2:"Akola",m3:"Osmanabad",
+frmT:"Receba os preços no celular",frmN:"Seu nome",frmNph:"ex.: Sunita Patil",frmP:"Número de celular",frmPph:"Número de 10 dígitos",frmS:"Enviar preços diários",
+eName:"Digite seu nome",ePhone:"Digite um número de celular de 10 dígitos",toast:"Pronto. Você receberá os preços todas as manhãs às 7h.",
+ftrT:"Fasal Flow — preços, previsões e transporte para os agricultores do Maharashtra.",ftrR:"© 2026 Fasal Flow. Todos os direitos reservados."},
+
+nl:{lang:"Taal",nav1:"Marktprijzen",nav2:"Prijsverwachting",nav3:"Transport",nav4:"Meedoen",
+h1:"Ken de marktprijs voordat u de vrachtwagen laadt.",hsub:"Actuele APMC-prijzen uit heel Maharashtra, een prognose voor zeven dagen en gecontroleerde kopers — in uw eigen taal.",cta1:"Prijzen van vandaag",cta2:"Hoe het werkt",
+f0:"Wat Fasal Flow doet",f1t:"Actuele marktprijzen",f1d:"Prijzen van APMC-markten, de hele handelsdag bijgewerkt.",f2t:"Prognose voor zeven dagen",f2d:"Een schatting van waar de prijs van uw gewas heen gaat, met betrouwbaarheidsmarge.",f3t:"Directe kopers",f3d:"Verkoop zonder tussenhandelaar aan gecontroleerde handelaren en coöperaties.",
+tblT:"Prijzen van vandaag",cCrop:"Gewas",cMandi:"Markt",cPrice:"Prijs (₹/quintal)",cChg:"Verschil",
+c1:"Sojaboon",c2:"Katoen",c3:"Duivenerwt",m1:"Latur",m2:"Akola",m3:"Osmanabad",
+frmT:"Ontvang prijzen op uw telefoon",frmN:"Uw naam",frmNph:"bijv. Sunita Patil",frmP:"Mobiel nummer",frmPph:"Nummer van 10 cijfers",frmS:"Stuur mij dagelijks prijzen",
+eName:"Vul uw naam in",ePhone:"Vul een mobiel nummer van 10 cijfers in",toast:"Klaar. U ontvangt elke ochtend om 7 uur de prijzen.",
+ftrT:"Fasal Flow — prijzen, prognoses en transport voor boeren in Maharashtra.",ftrR:"© 2026 Fasal Flow. Alle rechten voorbehouden."},
+
+ru:{lang:"Язык",nav1:"Цены рынка",nav2:"Прогноз цен",nav3:"Перевозка",nav4:"Присоединиться",
+h1:"Узнайте цену рынка до погрузки.",hsub:"Актуальные цены APMC по всей Махараштре, прогноз на семь дней и проверенные покупатели — на вашем языке.",cta1:"Цены на сегодня",cta2:"Как это работает",
+f0:"Что делает Fasal Flow",f1t:"Актуальные цены",f1d:"Цены с рынков APMC, обновляются в течение всего дня.",f2t:"Прогноз на семь дней",f2d:"Оценка того, куда движется цена вашей культуры, с доверительным интервалом.",f3t:"Прямые покупатели",f3d:"Продавайте проверенным торговцам и кооперативам без посредника.",
+tblT:"Цены на сегодня",cCrop:"Культура",cMandi:"Рынок",cPrice:"Цена (₹/центнер)",cChg:"Изменение",
+c1:"Соя",c2:"Хлопок",c3:"Голубиный горох",m1:"Латур",m2:"Акола",m3:"Османабад",
+frmT:"Получайте цены на телефон",frmN:"Ваше имя",frmNph:"например, Сунита Патил",frmP:"Номер телефона",frmPph:"10 цифр",frmS:"Присылать цены ежедневно",
+eName:"Введите имя",ePhone:"Введите номер телефона из 10 цифр",toast:"Готово. Цены будут приходить каждое утро в 7:00.",
+ftrT:"Fasal Flow — цены, прогнозы и перевозка для фермеров Махараштры.",ftrR:"© 2026 Fasal Flow. Все права защищены."},
+
+"zh-CN":{lang:"语言",nav1:"市场价格",nav2:"价格预测",nav3:"运输",nav4:"加入",
+h1:"装车之前，先知道市场价。",hsub:"马哈拉施特拉邦各地的实时 APMC 价格、七天预测和经过核实的买家——用你熟悉的语言。",cta1:"查看今日价格",cta2:"如何使用",
+f0:"Fasal Flow 提供什么",f1t:"实时市场价格",f1d:"来自 APMC 市场的价格，全天持续更新。",f2t:"七天预测",f2d:"对你的作物价格走向的估计，并给出置信区间。",f3t:"直接买家",f3d:"无需中间商，直接卖给经过核实的商户和农民合作社。",
+tblT:"今日价格",cCrop:"作物",cMandi:"市场",cPrice:"价格（₹/公担）",cChg:"涨跌",
+c1:"大豆",c2:"棉花",c3:"木豆",m1:"拉图尔",m2:"阿科拉",m3:"奥斯马纳巴德",
+frmT:"在手机上接收价格",frmN:"你的姓名",frmNph:"例如：Sunita Patil",frmP:"手机号码",frmPph:"10 位数字",frmS:"每天发送价格",
+eName:"请输入姓名",ePhone:"请输入 10 位手机号码",toast:"完成。每天早上 7 点你会收到价格。",
+ftrT:"Fasal Flow——为马哈拉施特拉邦农民提供价格、预测与运输。",ftrR:"© 2026 Fasal Flow. 保留所有权利。"},
+
+ja:{lang:"言語",nav1:"市場価格",nav2:"価格予測",nav3:"輸送",nav4:"参加する",
+h1:"トラックに積む前に、市場価格を確かめましょう。",hsub:"マハラシュトラ州全域のAPMC価格をリアルタイムで、7日間の予測と審査済みの買い手とともに、あなたの言語で。",cta1:"今日の価格を見る",cta2:"使い方",
+f0:"Fasal Flowでできること",f1t:"リアルタイムの市場価格",f1d:"APMC市場の価格を、取引時間中ずっと更新します。",f2t:"7日間の予測",f2d:"作物の価格がどちらに向かうかの推定を、信頼区間つきで示します。",f3t:"直接取引の買い手",f3d:"仲買人を通さず、審査済みの業者や生産者団体に販売できます。",
+tblT:"今日の価格",cCrop:"作物",cMandi:"市場",cPrice:"価格（₹/クインタル）",cChg:"変動",
+c1:"大豆",c2:"綿",c3:"キマメ",m1:"ラトゥール",m2:"アコーラ",m3:"オスマナバード",
+frmT:"携帯で価格を受け取る",frmN:"お名前",frmNph:"例：Sunita Patil",frmP:"携帯番号",frmPph:"10桁の番号",frmS:"毎日価格を送る",
+eName:"お名前を入力してください",ePhone:"10桁の携帯番号を入力してください",toast:"完了しました。毎朝7時に価格が届きます。",
+ftrT:"Fasal Flow — マハラシュトラの農家のための価格・予測・輸送。",ftrR:"© 2026 Fasal Flow. 無断転載を禁じます。"},
+
+ko:{lang:"언어",nav1:"시장 가격",nav2:"가격 예측",nav3:"운송",nav4:"참여하기",
+h1:"트럭에 싣기 전에 시장 가격부터 확인하세요.",hsub:"마하라슈트라 전역의 실시간 APMC 가격, 7일 예측, 검증된 구매자를 익숙한 언어로 만나보세요.",cta1:"오늘 가격 보기",cta2:"이용 방법",
+f0:"Fasal Flow가 하는 일",f1t:"실시간 시장 가격",f1d:"APMC 시장의 가격을 거래 시간 내내 갱신합니다.",f2t:"7일 예측",f2d:"작물 가격이 어디로 향하는지에 대한 추정치를 신뢰 구간과 함께 보여줍니다.",f3t:"직거래 구매자",f3d:"중개인 없이 검증된 상인과 생산자 조합에 판매하세요.",
+tblT:"오늘 가격",cCrop:"작물",cMandi:"시장",cPrice:"가격 (₹/퀸틀)",cChg:"변동",
+c1:"대두",c2:"목화",c3:"비둘기콩",m1:"라투르",m2:"아콜라",m3:"오스마나바드",
+frmT:"휴대폰으로 가격 받기",frmN:"이름",frmNph:"예: Sunita Patil",frmP:"휴대폰 번호",frmPph:"10자리 번호",frmS:"매일 가격 보내기",
+eName:"이름을 입력하세요",ePhone:"10자리 휴대폰 번호를 입력하세요",toast:"완료했습니다. 매일 아침 7시에 가격을 보내드립니다.",
+ftrT:"Fasal Flow — 마하라슈트라 농민을 위한 가격, 예측, 운송.",ftrR:"© 2026 Fasal Flow. All rights reserved."}
+};
+
+/* ---------- 3. Dynamic rows: text held as KEYS, numbers formatted per locale ---- */
+const ROWS=[{c:"c1",m:"m1",p:4720,d:+1.8},{c:"c2",m:"m2",p:7350,d:-0.6},{c:"c3",m:"m3",p:9180,d:+2.4}];
+
+/* ---------- 4. Engine ---------- */
+const KEY="ff_lang", $=s=>document.querySelector(s);
+const dirOf=c=>(LANGS.find(l=>l[0]===c)||[,,"ltr"])[2];
+
+function pick(){                       // saved choice > browser language > English
+  try{const s=localStorage.getItem(KEY); if(s&&T[s])return s;}catch(e){}
+  const n=(navigator.language||"en");
+  if(T[n])return n;
+  const b=n.split("-")[0];
+  return Object.keys(T).find(c=>c.split("-")[0]===b)||"en";
+}
+
+function t(k,lng){return (T[lng]&&T[lng][k])!=null?T[lng][k]:T.en[k];} // fallback to English
+
+function renderRows(lng){
+  const nf=new Intl.NumberFormat(lng);          // digits follow the locale
+  $("#rows").innerHTML=ROWS.map(r=>`<tr>
+    <td>${t(r.c,lng)}</td><td>${t(r.m,lng)}</td>
+    <td>${nf.format(r.p)}</td>
+    <td class="${r.d>=0?"up":"down"}">${r.d>=0?"▲":"▼"} ${nf.format(Math.abs(r.d))}%</td></tr>`).join("");
+}
+
+function apply(lng){
+  document.documentElement.lang=lng;
+  document.documentElement.dir=dirOf(lng);      // flips the whole layout for ar / ur
+  // every element carrying data-i18n gets its text; data-i18n-ph gets its placeholder
+  document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=t(el.dataset.i18n,lng));
+  document.querySelectorAll("[data-i18n-ph]").forEach(el=>el.placeholder=t(el.dataset.i18nPh,lng));
+  $("#lang").value=lng;
+  renderRows(lng);
+  // re-translate any validation message that is currently on screen
+  ["nm","ph"].forEach(id=>{const e=$("#"+id+"Err"); if(e.dataset.key)e.textContent=t(e.dataset.key,lng);});
+  try{localStorage.setItem(KEY,lng);}catch(e){}
+}
+
+// build the switcher from LANGS
+$("#lang").innerHTML=LANGS.map(([c,n])=>`<option value="${c}" lang="${c}">${n}</option>`).join("");
+$("#lang").addEventListener("change",e=>apply(e.target.value));
+
+// form: errors are stored as keys, so they switch language too
+function setErr(id,key){const e=$("#"+id+"Err"); e.dataset.key=key||""; e.textContent=key?t(key,$("#lang").value):"";}
+$("#joinForm").addEventListener("submit",ev=>{
+  ev.preventDefault();
+  const lng=$("#lang").value, ok1=$("#nm").value.trim().length>0, ok2=/^\d{10}$/.test($("#ph").value.trim());
+  setErr("nm",ok1?"":"eName"); setErr("ph",ok2?"":"ePhone");
+  if(ok1&&ok2){
+    const to=$("#toast"); to.textContent=t("toast",lng); to.classList.add("show");
+    setTimeout(()=>to.classList.remove("show"),3200); $("#joinForm").reset();
+  }
+});
+
+apply(pick());   // run on load, so the saved language is restored
+</script>
+</body>
+</html>
