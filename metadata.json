@@ -1,0 +1,10 @@
+{
+  "name": "fasal flow 1",
+  "description": "Direct farmer-to-buyer agricultural marketplace with i18next multi-language support (English, Hindi, Marathi), live Agmarknet APMC mandi prices, and integrated logistics.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
